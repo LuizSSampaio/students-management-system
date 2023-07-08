@@ -6,8 +6,9 @@ namespace db{
   class SQLite {
   private:
     std::string fileName;
+    sqlite3* db;
   public:
-    SQLite();
+    SQLite(std::string fileName);
     bool CreateDataBase();
     bool ConnectDataBase();
     void DisconnectDataBase();
