@@ -9,6 +9,7 @@ db::SQLite::SQLite(std::string fileName) {
 bool db::SQLite::CreateDataBase(std::string tableQuerry) {
   if (!std::ifstream(fileName)) {    
     std::ofstream of(fileName);
+    this->ConnectDataBase();
     this->ExecuteSQL(tableQuerry);
 
     return (std::ifstream(fileName)) ? true : false;
