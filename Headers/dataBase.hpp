@@ -9,7 +9,7 @@ namespace db{
     sqlite3* db;
   public:
     SQLite(std::string fileName);
-    bool CreateDataBase();
+    bool CreateDataBase(std::string tableQuerry);
     bool ConnectDataBase();
     void DisconnectDataBase();
     std::string ExecuteSQL(std::string querry);

@@ -6,9 +6,10 @@ db::SQLite::SQLite(std::string fileName) {
   this->fileName = fileName + ".db";
 }
 
-bool db::SQLite::CreateDataBase() {
+bool db::SQLite::CreateDataBase(std::string tableQuerry) {
   if (!std::ifstream(fileName)) {    
     std::ofstream of(fileName);
+    this->ExecuteSQL(tableQuerry);
 
     return (std::ifstream(fileName)) ? true : false;
   }
@@ -17,7 +18,7 @@ bool db::SQLite::CreateDataBase() {
 
 bool db::SQLite::ConnectDataBase() {\
   if (!std::ifstream(fileName)) {
-    CreateDataBase();
+    return false;
   }
   const char* charFileName = fileName.c_str();
   int response = sqlite3_open(charFileName, &db);
@@ -35,7 +36,7 @@ std::string db::SQLite::ExecuteSQL(std::string querry) {
   std::string data;
   int response = sqlite3_exec(db, querry.c_str(), NULL, (void*)data.c_str(), NULL);
   if (response != SQLITE_OK) {
-    return 0;
+    return "err";
   }
   return data;
 }

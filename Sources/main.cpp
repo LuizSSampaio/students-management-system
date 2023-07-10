@@ -3,8 +3,8 @@
 #include "../Headers/student.hpp"
 #include "../Headers/dataBase.hpp"
 
-void Choices();
-bool AddStudent(std::string name, int age);
+void Choices(db::SQLite* dataBase);
+bool AddStudent(db::SQLite* dataBase, std::string name, int age);
 bool EditStudent(Student student, std::string newName = "", int newAge = 0);
 bool AddSubject(std::string subjectName);
 bool SetStudentSubjectGrade(Student student, std::string subject, int newGrade);
@@ -13,11 +13,17 @@ bool ShowStudentData(Student student);
 
 int main (int argc, char *argv[]) {
   std::cout << "=== Students Management System ===" << "\n";
-  Choices();
+  db::SQLite* dataBase = new db::SQLite("data");
+  if (!dataBase->ConnectDataBase()) {
+    std::string CreateTablequerry = "";
+    dataBase->ExecuteSQL(CreateTablequerry);
+  }
+  Choices(dataBase);
+  dataBase->DisconnectDataBase();
   return 0;
 }
 
-void Choices() {
+void Choices(db::SQLite* dataBase) {
   bool bInvalidChoice = false;
   do {
     int choice;
@@ -59,4 +65,10 @@ void Choices() {
         bInvalidChoice = true;
     }
   } while (bInvalidChoice);
+}
+
+bool AddStudent(db::SQLite* dataBase, std::string name, int age) {
+  std::string querry = "INSERT INTO STUDENTS (NAME, AGE) VALUES (" + name + ", " + std::to_string(age) + ");";
+  std::string response = dataBase->ExecuteSQL(querry);
+  return !(response == "err");
 }
