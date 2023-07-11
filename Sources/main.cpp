@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -6,7 +7,7 @@
 
 void Choices(std::shared_ptr<db::SQLite> dataBase);
 bool AddStudent(std::shared_ptr<db::SQLite> dataBase);
-bool EditStudent(Student student, std::string newName = "", int newAge = 0);
+bool EditStudent(std::shared_ptr<db::SQLite> dataBase);
 bool AddSubject(std::string subjectName);
 bool SetStudentSubjectGrade(Student student, std::string subject, int newGrade);
 bool ShowStudentList();
@@ -83,22 +84,42 @@ void Choices(std::shared_ptr<db::SQLite> dataBase) {
   } while (bInvalidChoice);
 }
 
-//TODO: FIX THE INSERT QUERRY
+//TODO: Change questions about the students to student class functions
+// All changes in database will be done in the student class
+
 bool AddStudent(std::shared_ptr<db::SQLite> dataBase) {
   std::string name;
   std::cout << "Enter the name of the new student: ";
   std::cin >> name;
 
-  int age;
+  std::string age;
   std::cout << "Enter the age of the new student: ";
   std::cin >> age;
 
   std::string querry {
     "INSERT INTO STUDENTS (NAME, AGE)" 
     "VALUES" 
-    "('DATA NOT FOUND', 404 );"
+    "('" + name + "', " + age + " );"
   };
-  std::cout << age;
+  std::string response = dataBase->ExecuteSQL(querry);
+  return !(response == "err");
+}
+
+//TODO: STUDENT identification by ID
+bool EditStudent(std::shared_ptr<db::SQLite> dataBase) {
+  std::string newName;
+  std::cout << "Enter the new name of the student: ";
+  std::cin >> newName;
+
+  std::string newAge;
+  std::cout << "Enter the new age of the student: ";
+  std::cin >> newAge;
+
+  std::string querry {
+    ""
+    //"UPDATE STUDENTS set NAME = '" + newName + "' where ID=?;"
+    //"UPDATE STUDENTS set AGE = " + newAge + " where ID=?;"
+  };
   std::string response = dataBase->ExecuteSQL(querry);
   return !(response == "err");
 }
