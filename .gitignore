@@ -1,1 +1,4 @@
-build
+# Folders:
+
+/build
+/.cache
