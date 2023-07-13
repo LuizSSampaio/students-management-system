@@ -1,7 +1,9 @@
-#include "../Headers/student.hpp"
 #include <string>
+// #include <memory>
+#include "student.hpp"
+// #include "dataBase.hpp"
 
-Student::Student(std::string name, int age)
+Student::Student(std::string name, int age /*, std::shared_ptr<db::SQLite> database*/)
 {
   this->name = name;
   this->age = age;
@@ -31,3 +33,9 @@ int Student::GetId()
 {
   return id;
 }
+
+/*
+void Student::UpdateDatabase(std::shared_ptr<db::SQLite> database)
+{
+}
+*/

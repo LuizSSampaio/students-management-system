@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include "../Headers/student.hpp"
-#include "../Headers/dataBase.hpp"
+#include "student.hpp"
+#include "dataBase.hpp"
 
 void Choices(std::shared_ptr<db::SQLite> dataBase);
 bool AddStudent(std::shared_ptr<db::SQLite> dataBase);
@@ -21,7 +21,7 @@ int main()
   std::shared_ptr<db::SQLite> dataBase = std::make_shared<db::SQLite>("data");
   if (!dataBase->ConnectDataBase())
   {
-    std::string CreateTablequery{
+    std::string CreateTableQuery{
         "CREATE TABLE 'STUDENTS' ("
         " 'ID' INTEGER UNIQUE,"
         " 'NAME' TEXT NOT NULL,"
@@ -29,7 +29,7 @@ int main()
         " 'GRADES' TEXT,"
         " PRIMARY KEY('ID' AUTOINCREMENT)"
         ");"};
-    if (dataBase->CreateDataBase(CreateTablequery))
+    if (dataBase->CreateDataBase(CreateTableQuery))
     {
       if (!dataBase->ConnectDataBase())
       {
